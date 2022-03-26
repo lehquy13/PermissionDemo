@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     //Activity Result APIs
-    ActivityResultLauncher<String[]> mPermissionResultLauncher;
+    ActivityResultLauncher<String[]> mPermissionResultLauncher; // có thể linh hoạt thay đổi kiểu dữ liệu đầu vào
     private boolean readPermission = false;
     private boolean locationPermission = false;
     private boolean recordPermission = false;
@@ -37,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
         Button reqButton = findViewById(R.id.btnRequestPermission);
 
         mPermissionResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions()
-                , new ActivityResultCallback<Map<String, Boolean>>() {
+                , new ActivityResultCallback<Map<String, Boolean>>() { // KDL của result
                     @Override
                     public void onActivityResult(Map<String, Boolean> result) {
-                        if(result.get(Manifest.permission.READ_EXTERNAL_STORAGE) != null)
-                            readPermission = result.get(Manifest.permission.READ_EXTERNAL_STORAGE);
-                       /* if(result.get(Manifest.permission.RECORD_AUDIO) != null)
+                    /*    if(result.get(Manifest.permission.READ_EXTERNAL_STORAGE) != null)
+                            readPermission = result.get(Manifest.permission.READ_EXTERNAL_STORAGE); //note
+                        if(result.get(Manifest.permission.INTERNET) != null)
                             recordPermission = result.get(Manifest.permission.RECORD_AUDIO);
                         if(result.get(Manifest.permission.ACCESS_FINE_LOCATION) != null)
                             locationPermission = result.get(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -64,11 +64,9 @@ public class MainActivity extends AppCompatActivity {
     private int EXTERNAL_STORAGE_PERMISSION_CODE = 1;// k   quan trọng, ta có tể set tùy ý 1 số bất kì
 
     private void requestPermission(){
-        List<String> permissionRequest = new ArrayList<String>();
 
         // ContextCompat.checkSelfPermission hàm kiểm tra liệu user đã cấp quyền cho app chưa
-      if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED){
+      if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
             Toast.makeText(this, "thank you guys, u have already granted the permission. Enjoy the application!!", Toast.LENGTH_LONG).show();
         }else if ( ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)) {
             Toast.makeText(this, "I need u to accept this, please. Check your permission in app setting!", Toast.LENGTH_LONG).show();
@@ -77,13 +75,11 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             Toast.makeText(this, "hello u guys for the very FIRST TIME !!!!", Toast.LENGTH_LONG).show();
-           /* ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);*/
+            //ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);
           mPermissionResultLauncher.launch(new String[]{(Manifest.permission.READ_EXTERNAL_STORAGE)});
       };
-/*
 
-
-        readPermission = ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)
+       /* readPermission = ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED;
         locationPermission = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
@@ -110,13 +106,7 @@ public class MainActivity extends AppCompatActivity {
         if(!permissionRequest.isEmpty()){
             mPermissionResultLauncher.launch(permissionRequest.toArray(new String[0]));
         }
-
 */
 
-
-
-
-
     }
-
 }
